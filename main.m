@@ -1,6 +1,7 @@
 
 mypath = erase(mfilename("fullpath"), "main");
 addpath(mypath+"models")
+addpath(mypath+"methods")
 warning("off") % New favourite command
 
 
