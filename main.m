@@ -7,7 +7,7 @@ warning("off") % New favourite command
 
 
 %% video-stuff
-writing_video = true;
+writing_video = false;
 
 if writing_video
 video_index = 1;
