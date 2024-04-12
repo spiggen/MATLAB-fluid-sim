@@ -109,7 +109,7 @@ clear neighbors_x neighbors_y
 
 %% Slap a gpu on dat bitch
 
-
+if gpuDeviceCount > 0
 
 v_x           = gpuArray(v_x);
 v_y           = gpuArray(v_y);
@@ -165,4 +165,4 @@ ds_dy = gpuArray(ds_dy);
 
 neighbors = gpuArray(neighbors);
 
-
+end
