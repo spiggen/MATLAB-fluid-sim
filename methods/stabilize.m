@@ -5,4 +5,4 @@
 
 v_x = relu(v_x, 4);
 v_y = relu(v_y, 4);
-smoke = relu(smoke, 0.06);
+smoke = relu(smoke, 1.2);
