@@ -1,3 +1,5 @@
+%% All of this is basically just a bunch of pre-allocation
+
 [x_mesh, y_mesh] = meshgrid(x_vec,y_vec);
 
 dx = abs(x_mesh(1,2) - x_mesh(1,1));
