@@ -1,19 +1,27 @@
 set(groot, 'defaultAxesTickLabelInterpreter','latex'); set(groot, 'defaultLegendInterpreter','latex');
 mypath = erase(mfilename("fullpath"), "main");
+%mypath = mfilename("fullpath")
 addpath(mypath+"airfoils")
 addpath(mypath+"methods")
 warning("off") % New favourite command
 
-
+if isfolder(erase(mypath, "\fluid sim")+"\colorthemes")
+addpath(erase(mypath, "\fluid sim")+"\colorthemes")
+end
 
 %% video-stuff
-writing_video = true;
+writing_video = false;
+writing_gif   = false;
+
+
 
 if writing_video
 video_index = 1;
+
 if ~isfolder(mypath+"videos")
 mkdir(mypath+"videos")
 end
+
 
 while isfile(mypath+"videos\smoke_video"      +string(video_index)+".mp4") + ...
       isfile(mypath+"videos\smoke_cell_video" +string(video_index)+".mp4") + ...
@@ -22,12 +30,30 @@ while isfile(mypath+"videos\smoke_video"      +string(video_index)+".mp4") + ...
 video_index = video_index +1;
 end
 
+
+
 videoObj1 = VideoWriter(mypath+"videos\smoke_video"      +string(video_index)+".mp4","MPEG-4");
 videoObj2 = VideoWriter(mypath+"videos\smoke_cell_video" +string(video_index)+".mp4","MPEG-4");
 videoObj3 = VideoWriter(mypath+"videos\velocity_video"   +string(video_index)+".mp4","MPEG-4");
 open(videoObj1);
 open(videoObj2);
 open(videoObj3);
+
+end
+
+
+if writing_gif
+gif_index   = 1;
+if ~isfolder(mypath+"gifs")
+mkdir(mypath+"gifs")
+end
+
+while isfile(mypath+"gifs\smoke"      +string(gif_index)+".gif") + ...
+      isfile(mypath+"gifs\smoke_cell" +string(gif_index)+".gif") + ...
+      isfile(mypath+"gifs\velocity"   +string(gif_index)+".gif") > 0
+
+gif_index = gif_index +1;
+end
 end
 
 
@@ -35,24 +61,32 @@ end
 %% Initiate UI's
 f1  = figure();
 ax1 = axes();
-title(ax1, "Smoke-field");
-ax1.NextPlot = "replacechildren";
+
 axis(ax1, "image");
 f2  = figure();
 ax2 = axes();
-title(ax2, "Smoke-field levels");
-ax2.NextPlot = "replacechildren";
 axis(ax2, "image");
 f3  = figure();
 ax3 = axes();
-title(ax3, "Velocity-magnitude [m/s]")
-colorbar(ax3);
-ax3.NextPlot = "replacechildren";
 axis(ax3, "image");
+title(ax1, "Smoke-field");
+title(ax2, "Smoke-field levels");
+title(ax3, "Velocity-magnitude [m/s]")
+colorbar(ax1);
+colorbar(ax2);
+colorbar(ax3);
+ax1.NextPlot = "replacechildren";
+ax2.NextPlot = "replacechildren";
+ax3.NextPlot = "replacechildren";
 
 f1.WindowState = "maximized";
 f2.WindowState = "maximized";
 f3.WindowState = "maximized";
+
+
+if isfolder(erase(mypath, "\fluid sim")+"\colorthemes")
+matlab_blue();
+end
 
 
 %% Setup
@@ -85,8 +119,8 @@ smoke(3:30:end,1:40) = 1;
 
 
 
-max_iterations = 10000;
-
+max_iterations = 1000;
+tic;
 %% Main loop
 for iteration = 1:max_iterations
 %for i = 1
@@ -134,6 +168,12 @@ writeVideo(videoObj2, getframe(ax2))
 writeVideo(videoObj3, getframe(ax3))
 end
 
+if writing_gif
+exportgraphics(ax1, mypath+"gifs\smoke"      +string(gif_index)+".gif", "Append",true, "BackgroundColor", get(ax1, "Color"));
+exportgraphics(ax2, mypath+"gifs\smoke_cell" +string(gif_index)+".gif", "Append",true, "BackgroundColor", get(ax2, "Color"));
+exportgraphics(ax3, mypath+"gifs\velocity"   +string(gif_index)+".gif", "Append",true, "BackgroundColor", get(ax3, "Color"));
+end
+
 end
 
 %
@@ -142,7 +182,7 @@ end
 
 iteration = iteration +1;
 end
-
+t = toc;
 
 
 %% Closing video-writers
