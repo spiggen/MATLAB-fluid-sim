@@ -109,7 +109,7 @@ clear neighbors_x neighbors_y
 
 %% Slap a gpu on dat bitch
 
-if gpuDeviceCount > 0
+if gpuDeviceCount > 0 && using_gpu
 
 v_x           = gpuArray(v_x);
 v_y           = gpuArray(v_y);

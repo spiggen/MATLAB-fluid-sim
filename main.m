@@ -4,6 +4,7 @@ mypath = erase(mfilename("fullpath"), "main");
 addpath(mypath+"airfoils")
 addpath(mypath+"methods")
 warning("off") % New favourite command
+using_gpu = true;
 
 if isfolder(erase(mypath, "\fluid sim")+"\colorthemes")
 addpath(erase(mypath, "\fluid sim")+"\colorthemes")
