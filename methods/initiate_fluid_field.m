@@ -1,3 +1,5 @@
+%% All of this is basically just a bunch of pre-allocation
+
 [x_mesh, y_mesh] = meshgrid(x_vec,y_vec);
 
 dx = abs(x_mesh(1,2) - x_mesh(1,1));
@@ -107,7 +109,7 @@ clear neighbors_x neighbors_y
 
 %% Slap a gpu on dat bitch
 
-
+if gpuDeviceCount > 0
 
 v_x           = gpuArray(v_x);
 v_y           = gpuArray(v_y);
@@ -163,4 +165,4 @@ ds_dy = gpuArray(ds_dy);
 
 neighbors = gpuArray(neighbors);
 
-
+end

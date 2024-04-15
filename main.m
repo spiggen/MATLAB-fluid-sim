@@ -11,9 +11,12 @@ end
 
 %% video-stuff
 writing_video = false;
+<<<<<<< HEAD
 writing_gif   = false;
 
 
+=======
+>>>>>>> a5ed8168880f2fcf75b94f89af4e62223ab0ea98
 
 if writing_video
 video_index = 1;
